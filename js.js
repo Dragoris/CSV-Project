@@ -44,7 +44,7 @@ $(document).ready(function () {
       })
     })
 
-    console.log(data)
+   // console.log(data)
   }
 
   function buildTable(results) {
