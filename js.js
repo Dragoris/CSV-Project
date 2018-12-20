@@ -9,42 +9,76 @@ $(document).ready(function () {
         console.log(results)
         buildTable(results);
 
-        analizeData(results, [19, 20]);
+        analizeData(results);
 
       }
     });
   }
 
-  function analizeData(results, columns) {
-    var data = {}
-    columns.forEach(function(column) {
-      data[column] = {}
+  function analizeData(results) {
+    var output = {
+      'images': {
+        // count: number,
+        // link: url,
+        // totalProfit: number,
+      // },
+      }
+      // 'orders': {
+        // link: string + order number,
+        // orderSize: number (item coun in order),
+        // totalProfit : number
+      // },
+      //albums:{
+        //totalProfit: number
+      // }
 
+    }
+    var columns ;
 
-      $.each(results.data, function(i, row) {
-        var headerCount = 23
-        if (i == 0) {
-          headerCount = row.length
-        }
-        else {
-          if (row.length == headerCount) {
-            $.each(row, function(i, data) {
-              if (i == column) {
-                if (data[column][data] ) {
-                  data[column][data] += 1
-                }
-                else{
-                  data[column][data] = 1
+    $.each(results.data, function(i, row) {
+      var headerCount = 23
+      if (i == 0) {
+        columns = row
+      }
+      else {
+        if (row.length == headerCount) {
+          $.each(row, function(i, data) {
+            var imgId = row[19]
+            var link = row[17]
+            var obj = {
+              'count': null,
+              'link': null
+            }
 
+            if (i == 17) {
+               if (output['images'][imgId]) {
+                  output['images'][imgId]['link'] = link + '/S'
+               }
+              else {
+                output['images'][imgId] = {
+                  'count': 1,
+                  'link': link + '/S'
                 }
               }
-            })
-          }
+            }
+            if (i == 19) {
+              if (output['images'][imgId]) {
+                output['images'][imgId]['count'] = output['images'][imgId]['count'] + 1
+              }
+              else{
+                output['images'][imgId] = {
+                  'count': 1
+                }
+              }
+              
+            }
+            
+          })
         }
-      })
+      }
     })
-
-    console.log(data)
+  
+    console.log(output)
   }
 
   function buildTable(results) {
