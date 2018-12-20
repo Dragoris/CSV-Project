@@ -79,6 +79,7 @@ $(document).ready(function () {
     })
   
     console.log(output)
+
   }
 
   function buildTable(results) {
