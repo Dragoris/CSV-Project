@@ -22,60 +22,93 @@ $(document).ready(function () {
         // link: url,
         // totalProfit: number,
       // },
-      }
-      // 'orders': {
+      },
+      'orders': {
+        // count: number,
         // link: string + order number,
-        // orderSize: number (item coun in order),
         // totalProfit : number
-      // },
-      //albums:{
-        //totalProfit: number
-      // }
+      },
+      'albums': {
+        //totalProfit: number,
+      }
 
     }
-    var columns ;
+//     0: "OrderID"
+// 1: "Date"
+// 2: "Quantity"
+// 3: "Currency"
+// 4: "Base Price"
+// 5: "Price Charged"
+// 6: "Profit"
+// 7: "Charges"
+// 8: "Tax"
+// 9: "Shipping Cost"
+// 10: "Type"
+// 11: "Name"
+// 12: "Payment Status"
+// 13: "Payment Date"
+// 14: "Payment Info"
+// 15: "Payment Currency"
+// 16: "Payment Exchange Rate"
+// 17: "Link"
+// 18: "Filename"
+// 19: "ImageID"
+// 20: "AlbumID"
+// 21: "Category Hierarchy"
+// 22: "Gallery Title"
+
+
+
+
 
     $.each(results.data, function(i, row) {
       var headerCount = 23
-      if (i == 0) {
-        columns = row
-      }
-      else {
-        if (row.length == headerCount) {
-          $.each(row, function(i, data) {
-            var imgId = row[19]
-            var link = row[17]
-            var obj = {
-              'count': null,
-              'link': null
-            }
+      //skip header and ignore rows for shipping costs
+      if (row.length == headerCount && i !== 0) {
+        var link = row[17];
+        var profit = Number(row[6]);
 
-            if (i == 17) {
-               if (output['images'][imgId]) {
-                  output['images'][imgId]['link'] = link + '/S'
-               }
-              else {
-                output['images'][imgId] = {
-                  'count': 1,
-                  'link': link + '/S'
-                }
-              }
-            }
-            if (i == 19) {
-              if (output['images'][imgId]) {
-                output['images'][imgId]['count'] = output['images'][imgId]['count'] + 1
-              }
-              else{
-                output['images'][imgId] = {
-                  'count': 1
-                }
-              }
-              
-            }
-            
-          })
+        var imgId = row[19];
+        var orderId = row[0];
+        var albumId = row[20];
+
+        //if you already have this imgId increment the count and add in profit
+        if (output['images'][imgId]) {
+            output['images'][imgId]['count'] = output['images'][imgId]['count'] + 1
+            output['images'][imgId]['totalProfit'] = output['images'][imgId]['totalProfit'] + profit
         }
+        //otherwise set default values as for the img
+        else{
+          output['images'][imgId] = {
+            'count': 1,
+            'link': link + '/S',
+            'totalProfit': profit
+          }
+        }
+        //same thing for orders and albums
+        if (output['orders'][orderId]) {
+            output['orders'][orderId]['count'] = output['orders'][orderId]['count'] + 1
+            output['orders'][orderId]['totalProfit'] = output['orders'][orderId]['totalProfit'] + profit
+        }
+        else{
+          output['orders'][orderId] = {
+            'count': 1,
+            // 'link': link + '/S',
+            'totalProfit': profit
+          }
+        }
+
+        if (output['albums'][albumId]) {
+            output['albums'][albumId]['totalProfit'] = output['albums'][albumId]['totalProfit'] + profit
+        }
+        else{
+          output['albums'][albumId] = {
+            'totalProfit': profit
+          }
+        }   
       }
+      
+
     })
   
     console.log(output)
