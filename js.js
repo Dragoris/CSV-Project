@@ -63,45 +63,7 @@ $(document).ready(function () {
 
     $.each(results.data, function(i, row) {
       var headerCount = 23
-<<<<<<< HEAD
-      if (i == 0) {
-        columns = row
-      }
-      else {
-        if (row.length == headerCount) {
-          $.each(row, function(i, data) {
-            var imgId = row[19]
-            var link = row[17]
-            var obj = {
-              'count': null,
-              'link': null
-            }
 
-            if (i == 17) {
-               if (output['images'][imgId]) {
-                  output['images'][imgId]['link'] = link + '/Ss'
-               }
-              else {
-                output['images'][imgId] = {
-                  'count': 1,
-                  'link': link + '/S'
-                }
-              }
-            }
-            if (i == 19) {
-              if (output['images'][imgId]) {
-                output['images'][imgId]['count'] = output['images'][imgId]['count'] + 1
-              }
-              else{
-                output['images'][imgId] = {
-                  'count': 1
-                }
-              }
-              
-            }
-            
-          })
-=======
       //skip header and ignore rows for shipping costs
       if (row.length == headerCount && i !== 0) {
         var link = row[17];
@@ -128,7 +90,6 @@ $(document).ready(function () {
         if (output['orders'][orderId]) {
             output['orders'][orderId]['count'] = output['orders'][orderId]['count'] + 1
             output['orders'][orderId]['totalProfit'] = output['orders'][orderId]['totalProfit'] + profit
->>>>>>> 1c861ad29e007de071a0465de187816862e531ab
         }
         else{
           output['orders'][orderId] = {
