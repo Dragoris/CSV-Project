@@ -52,7 +52,7 @@ $(document).ready(function () {
 
             if (i == 17) {
                if (output['images'][imgId]) {
-                  output['images'][imgId]['link'] = link + '/S'
+                  output['images'][imgId]['link'] = link + '/Ss'
                }
               else {
                 output['images'][imgId] = {
