@@ -104,8 +104,7 @@ $(document).ready(function () {
         else{
           output['albums'][albumId] = {
             'totalProfit': profit
-           // 'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + "AlbumId", -- Trying to amend the AlbumID to the end of the URL. //
-          }
+           }
         }   
       }
       
