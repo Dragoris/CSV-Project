@@ -87,7 +87,7 @@ $(document).ready(function () {
         }
         //same thing for orders and albums
         if (output['orders'][orderId]) {
-            output['orders'][orderId]['count'] = output['orders'][orderId]['count'] + 1
+            output['orders'][orderId]['count'] = output['orders'][orderId]['count'] + 1 
             output['orders'][orderId]['totalProfit'] = output['orders'][orderId]['totalProfit'] + profit
         }
         else{
@@ -104,7 +104,7 @@ $(document).ready(function () {
         else{
           output['albums'][albumId] = {
             'totalProfit': profit
-            'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + "AlbumId"
+           // 'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + "AlbumId", -- Trying to amend the AlbumID to the end of the URL. //
           }
         }   
       }
