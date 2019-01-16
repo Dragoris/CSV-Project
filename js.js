@@ -67,7 +67,7 @@ $(document).ready(function () {
       if (row.length == headerCount && i !== 0) {
         if (row[10] === 'Sale') {
           var link = row[17];
-          var profit = Number(row[6]);
+          var profit = Number(row[6])
 
           var orderId = row[0];
           var dateId = row[1];
@@ -86,9 +86,14 @@ $(document).ready(function () {
           else{
             output['images'][imgId] = {
               'SM Image Id': imgId,
+<<<<<<< HEAD
               'Times Sold': 1, 
               'Link to image': link, // Need to make clickable, new tab, 
               //'Gallery Title': galleryTitle,
+=======
+              'Time Sold': 1, 
+              'Link to image': '<a href="' +link + '" target="_blank">'+link+'</a>', // Need to make clickable, new tab, 
+>>>>>>> 1fe5e1a1d819d3a75b31a5c63816af0c6c247c57
               'Total Image Profit': profit,
               'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank 
             }
@@ -102,8 +107,7 @@ $(document).ready(function () {
             output['orders'][orderId] = {
               'SM Order ID': orderId,
               'Order Date' : dateId, // Added the Date!! 
-            //'count': 1, // We'll never have two of the same order number. This might be worth hiding.
-              'Order Link': "https://secure.smugmug.com/cart/order?OrderID=" + orderId, //Adding a link to the orders - Need to make them clickable, new tab
+              'Order Link': '<a href="https://secure.smugmug.com/cart/order?OrderID=' + orderId +'" target="_blank">https://secure.smugmug.com/cart/order?OrderID=' + orderId + '</a>', //Adding a link to the orders - Need to make them clickable, new tab
               'Order Total Profit': profit
             }
           }
@@ -116,7 +120,7 @@ $(document).ready(function () {
               'SM Album ID': albumId,
               'Gallery Title': galleryTitle,
               'Total Album Profit': profit,
-              'Album Link (Admin)': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //Need to make them clickable, new tab 
+              'Album Link (Admin)': '<a href="https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '" target="_blank">https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '</a>', //Need to make them clickable, new tab 
             }
           }   
         }
@@ -161,8 +165,26 @@ $(document).ready(function () {
       }
 
       table += '<tr>'
-      $.each(row, function(i, data) {
-        table += '<td>' +data + '</td>'
+      $.each(row, function(index, data) {
+        if (id == 2) {
+          if (index == 2 && i != 0) {
+            table += '<td>' +Number(data).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) + '</td>'
+          }
+          else{
+            table += '<td>' +data + '</td>'
+
+          }
+        }
+        else{
+          if (index == 3 && i != 0) {
+            table += '<td>' +Number(data).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) + '</td>'
+          }
+          else{
+            table += '<td>' +data + '</td>'
+
+          }
+        }
+        
       })
 
       table += '</tr>'
