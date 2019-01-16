@@ -104,7 +104,7 @@ $(document).ready(function () {
         else{
           output['albums'][albumId] = {
             'totalProfit': profit,
-            'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, 
+            'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //This is the note 
           }
         }   
       }
