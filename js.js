@@ -142,7 +142,7 @@ $(document).ready(function () {
 
   }
 
-  function buildTable(csv, test) {
+  function buildTable(csv, id) {
     var table = '';
 
     $.each(csv.data, function(i, row) {
