@@ -69,23 +69,27 @@ $(document).ready(function () {
           var link = row[17];
           var profit = Number(row[6]);
 
-          var imgId = row[19];
           var orderId = row[0];
+          var dateId = row[1];
+          var imgId = row[19];
           var albumId = row[20];
-      //    var date = row[1];
+          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy"
+          var galleryTitle = row[22];
+          
 
           //if you already have this imgId increment the count and add in profit
           if (output['images'][imgId]) {
-              output['images'][imgId]['count'] = output['images'][imgId]['count'] + 1
-              output['images'][imgId]['totalProfit'] = output['images'][imgId]['totalProfit'] + profit
+              output['images'][imgId]['Time Sold'] = output['images'][imgId]['Time Sold'] + 1
+              output['images'][imgId]['Total Image Profit'] = output['images'][imgId]['Total Image Profit'] + profit
           }
           //otherwise set default values as for the img
           else{
             output['images'][imgId] = {
               'SM Image Id': imgId,
-              'Time Sold': 1,
-              'Link to image': link + '/S', // Need to make clickable, new tab, 
-              'Total Image Profit': profit
+              'Time Sold': 1, 
+              'Link to image': link, // Need to make clickable, new tab, 
+              'Total Image Profit': profit,
+              'Parent Folder': parentFolder, // This seems to be working - 
             }
           }
           //same thing for orders and albums
@@ -96,19 +100,20 @@ $(document).ready(function () {
           else{
             output['orders'][orderId] = {
               'SM Order ID': orderId,
-            ///  'Order Date' : 
-             // 'count': 1, // We'll never have two of the same order number. This might be worth hiding.
+              'Order Date' : dateId, // Added the Date!! 
+            //'count': 1, // We'll never have two of the same order number. This might be worth hiding.
               'Order Link': "https://secure.smugmug.com/cart/order?OrderID=" + orderId, //Adding a link to the orders - Need to make them clickable, new tab
               'Order Total Profit': profit
             }
           }
 
           if (output['albums'][albumId]) {
-              output['albums'][albumId]['totalProfit'] = output['albums'][albumId]['totalProfit'] + profit
+              output['albums'][albumId]['Total Album Profit'] = output['albums'][albumId]['Total Album Profit'] + profit
           }
           else{
             output['albums'][albumId] = {
               'SM Album ID': albumId,
+              'Gallery Title': galleryTitle,
               'Total Album Profit': profit,
               'Album Link (Admin)': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //Need to make them clickable, new tab 
             }
