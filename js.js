@@ -7,7 +7,7 @@ $(document).ready(function () {
       headers: true,
       complete: function(results) {
         console.log(results)
-        buildTable(results);
+        // buildTable(results);
 
         analizeData(results);
 
@@ -65,61 +65,87 @@ $(document).ready(function () {
       var headerCount = 23
       //skip header and ignore rows for shipping costs
       if (row.length == headerCount && i !== 0) {
-        var link = row[17];
-        var profit = Number(row[6]);
+        if (row[10] === 'Sale') {
+          var link = row[17];
+          var profit = Number(row[6]);
 
-        var imgId = row[19];
-        var orderId = row[0];
-        var albumId = row[20];
+          var imgId = row[19];
+          var orderId = row[0];
+          var albumId = row[20];
 
-        //if you already have this imgId increment the count and add in profit
-        if (output['images'][imgId]) {
-            output['images'][imgId]['count'] = output['images'][imgId]['count'] + 1
-            output['images'][imgId]['totalProfit'] = output['images'][imgId]['totalProfit'] + profit
-        }
-        //otherwise set default values as for the img
-        else{
-          output['images'][imgId] = {
-            'count': 1,
-            'link': link + '/S',
-            'totalProfit': profit
+          //if you already have this imgId increment the count and add in profit
+          if (output['images'][imgId]) {
+              output['images'][imgId]['count'] = output['images'][imgId]['count'] + 1
+              output['images'][imgId]['totalProfit'] = output['images'][imgId]['totalProfit'] + profit
           }
-        }
-        //same thing for orders and albums
-        if (output['orders'][orderId]) {
-            output['orders'][orderId]['count'] = output['orders'][orderId]['count'] + 1 
-            output['orders'][orderId]['totalProfit'] = output['orders'][orderId]['totalProfit'] + profit
-        }
-        else{
-          output['orders'][orderId] = {
-            'count': 1,
-            // 'link': link + '/S',
-            'totalProfit': profit
+          //otherwise set default values as for the img
+          else{
+            output['images'][imgId] = {
+              'id': imgId,
+              'count': 1,
+              'link': link + '/S',
+              'totalProfit': profit
+            }
           }
-        }
+          //same thing for orders and albums
+          if (output['orders'][orderId]) {
+              output['orders'][orderId]['count'] = output['orders'][orderId]['count'] + 1 
+              output['orders'][orderId]['totalProfit'] = output['orders'][orderId]['totalProfit'] + profit
+          }
+          else{
+            output['orders'][orderId] = {
+              'id': orderId,
+              'count': 1,
+              // 'link': link + '/S',
+              'totalProfit': profit
+            }
+          }
 
-        if (output['albums'][albumId]) {
-            output['albums'][albumId]['totalProfit'] = output['albums'][albumId]['totalProfit'] + profit
-        }
-        else{
-          output['albums'][albumId] = {
-            'totalProfit': profit,
-            'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //This is the note 
+          if (output['albums'][albumId]) {
+              output['albums'][albumId]['totalProfit'] = output['albums'][albumId]['totalProfit'] + profit
           }
-        }   
+          else{
+            output['albums'][albumId] = {
+              'id': albumId,
+              'totalProfit': profit,
+              'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //This is the note 
+            }
+          }   
+        }
       }
       
 
     })
   
-    console.log(output)
+    // console.log(unparse)
+
+    var unparse = []
+
+    $.each(output, function(i, table) {
+      var group = [];
+
+      $.each(table, function(i, row) {
+        group.push(row)
+      })
+
+      unparse.push(group)
+    })
+
+    console.log(unparse)
+
+    $.each(unparse, function(i, group){
+      var csv = Papa.unparse(group);
+      var results = Papa.parse(csv);
+
+      buildTable(results, i)
+    })
 
   }
 
-  function buildTable(results) {
+  function buildTable(csv, id) {
     var table = '<table>';
 
-    $.each(results.data, function(i, row) {
+    $.each(csv.data, function(i, row) {
       var close = ''
       if (i == 0) {
         table += '<thead><tr>'
@@ -137,7 +163,7 @@ $(document).ready(function () {
 
     table += '</table>'
 
-    $('#csv_table').html(table)
+    $('.csv_table_' + id).html(table)
 
      //initalize tablesorter options
     var options = {
