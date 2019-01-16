@@ -73,23 +73,24 @@ $(document).ready(function () {
           var dateId = row[1];
           var imgId = row[19];
           var albumId = row[20];
-          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy"
+          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy" - Sometimes a there is no parent folder. 
           var galleryTitle = row[22];
           
 
           //if you already have this imgId increment the count and add in profit
           if (output['images'][imgId]) {
-              output['images'][imgId]['Time Sold'] = output['images'][imgId]['Time Sold'] + 1
+              output['images'][imgId]['Times Sold'] = output['images'][imgId]['Times Sold'] + 1
               output['images'][imgId]['Total Image Profit'] = output['images'][imgId]['Total Image Profit'] + profit
           }
           //otherwise set default values as for the img
           else{
             output['images'][imgId] = {
               'SM Image Id': imgId,
-              'Time Sold': 1, 
+              'Times Sold': 1, 
               'Link to image': link, // Need to make clickable, new tab, 
+              //'Gallery Title': galleryTitle,
               'Total Image Profit': profit,
-              'Parent Folder': parentFolder, // This seems to be working - 
+              'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank 
             }
           }
           //same thing for orders and albums
