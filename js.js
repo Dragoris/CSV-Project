@@ -67,35 +67,29 @@ $(document).ready(function () {
       if (row.length == headerCount && i !== 0) {
         if (row[10] === 'Sale') {
           var link = row[17];
-          var profit = Number(row[6])
+          var profit = Number(row[6]);
 
           var orderId = row[0];
           var dateId = row[1];
           var imgId = row[19];
           var albumId = row[20];
-          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy" - Sometimes a there is no parent folder. 
+          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy"
           var galleryTitle = row[22];
           
 
           //if you already have this imgId increment the count and add in profit
           if (output['images'][imgId]) {
-              output['images'][imgId]['Times Sold'] = output['images'][imgId]['Times Sold'] + 1
+              output['images'][imgId]['Time Sold'] = output['images'][imgId]['Time Sold'] + 1
               output['images'][imgId]['Total Image Profit'] = output['images'][imgId]['Total Image Profit'] + profit
           }
           //otherwise set default values as for the img
           else{
             output['images'][imgId] = {
               'SM Image Id': imgId,
-<<<<<<< HEAD
-              'Times Sold': 1, 
-              'Link to image': link, // Need to make clickable, new tab, 
-              //'Gallery Title': galleryTitle,
-=======
               'Time Sold': 1, 
-              'Link to image': '<a href="' +link + '" target="_blank">'+link+'</a>', // Need to make clickable, new tab, 
->>>>>>> 1fe5e1a1d819d3a75b31a5c63816af0c6c247c57
+              'Link to image': link, // Need to make clickable, new tab, 
               'Total Image Profit': profit,
-              'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank 
+              'Parent Folder': parentFolder, // This seems to be working - 
             }
           }
           //same thing for orders and albums
@@ -107,7 +101,8 @@ $(document).ready(function () {
             output['orders'][orderId] = {
               'SM Order ID': orderId,
               'Order Date' : dateId, // Added the Date!! 
-              'Order Link': '<a href="https://secure.smugmug.com/cart/order?OrderID=' + orderId +'" target="_blank">https://secure.smugmug.com/cart/order?OrderID=' + orderId + '</a>', //Adding a link to the orders - Need to make them clickable, new tab
+            //'count': 1, // We'll never have two of the same order number. This might be worth hiding.
+              'Order Link': "https://secure.smugmug.com/cart/order?OrderID=" + orderId, //Adding a link to the orders - Need to make them clickable, new tab
               'Order Total Profit': profit
             }
           }
@@ -119,8 +114,9 @@ $(document).ready(function () {
             output['albums'][albumId] = {
               'SM Album ID': albumId,
               'Gallery Title': galleryTitle,
+              'Album Link (Admin)': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //Need to make them clickable, new tab
               'Total Album Profit': profit,
-              'Album Link (Admin)': '<a href="https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '" target="_blank">https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '</a>', //Need to make them clickable, new tab 
+               
             }
           }   
         }
@@ -166,25 +162,17 @@ $(document).ready(function () {
 
       table += '<tr>'
       $.each(row, function(index, data) {
-        if (id == 2) {
-          if (index == 2 && i != 0) {
-            table += '<td>' +Number(data).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) + '</td>'
-          }
-          else{
-            table += '<td>' +data + '</td>'
+        if (index == 2 && i != 0) {
+          table += '<td><a href="' +data + '" target="_blank">'+data+'</a></td>'
+        }
+        else if (index == 3 && i != 0) {
+          table += '<td>$' +Number(data).toFixed(2) + '</td>'
 
-          }
         }
         else{
-          if (index == 3 && i != 0) {
-            table += '<td>' +Number(data).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) + '</td>'
-          }
-          else{
-            table += '<td>' +data + '</td>'
+          table += '<td>' +data + '</td>'
 
-          }
         }
-        
       })
 
       table += '</tr>'
