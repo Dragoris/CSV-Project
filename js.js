@@ -103,8 +103,9 @@ $(document).ready(function () {
         }
         else{
           output['albums'][albumId] = {
-            'totalProfit': profit
-           }
+            'totalProfit': profit,
+            'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, 
+          }
         }   
       }
       
