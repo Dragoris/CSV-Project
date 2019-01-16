@@ -143,7 +143,7 @@ $(document).ready(function () {
   }
 
   function buildTable(csv, id) {
-    var table = '<table>';
+    var table = '';
 
     $.each(csv.data, function(i, row) {
       var close = ''
@@ -161,9 +161,9 @@ $(document).ready(function () {
       table += close
     })
 
-    table += '</table>'
+    table += ''
 
-    $('.csv_table_' + id).html(table)
+    $('#csv_table_' + id).html(table)
 
      //initalize tablesorter options
     var options = {
@@ -175,7 +175,7 @@ $(document).ready(function () {
       }
     };
 
-    $('#csv_table').tablesorter(options);
+    $('#csv_table_' + id).tablesorter(options);
   }
  
   $(document).ready(function(){

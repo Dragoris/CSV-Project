@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>SmugMug</title>
+	<title>CSV Insights</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/css/theme.dropbox.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -11,10 +11,30 @@
 	<div class="container">
 		<center><h2>CSV Insights</h2></center>
 		<input type="file" id="csv-file" name="files"/>
-		<div class="table-wrapper">
-			<table  class="tablesorter csv_table_0"></table>
-			<table  class="tablesorter csv_table_1"></table>
-			<table  class="tablesorter csv_table_2"></table>
+		<!-- <div class="table-wrapper">
+			<table id="csv_table" class="tablesorter"></table>
+		</div> -->
+		<ul class="nav nav-tabs" role="tablist">
+	    	<li class="nav-item">
+	    		<a class="nav-link active" id="img_tab" data-toggle="tab" href="#img_content" role="tab">Images</a>
+	    	</li>
+	    	<li class="nav-item">
+	    		<a class="nav-link" id="order_tab" data-toggle="tab" href="#order_content" role="tab">Orders</a>
+	    	</li>
+	    	<li class="nav-item">
+	    		<a class="nav-link" id="album_tab" data-toggle="tab" href="#album_content" role="tab">Albums</a>
+	    	</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="img_content" role="tabpanel">
+				<table id="csv_table_0" class="tablesorter"></table>
+			</div>
+			<div class="tab-pane fade" id="order_content" role="tabpanel">
+				<table id="csv_table_1" class="tablesorter"></table>
+			</div>
+			<div class="tab-pane fade" id="album_content" role="tabpanel">
+				<table id="csv_table_2" class="tablesorter"></table>
+			</div>
 		</div>
 	</div>
 
@@ -25,6 +45,10 @@
 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
   	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.widgets.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
 
 	<script type="text/javascript" src="js.js"></script>
 

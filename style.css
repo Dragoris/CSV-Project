@@ -1,4 +1,4 @@
-.table-wrapper{
+/*.table-wrapper{
 	overflow: scroll;
     height: 93vh;
     color: red
@@ -7,10 +7,10 @@
 .tablesorter-dropbox {
     width: 100%;
     font: 13px/32px "Open Sans","lucida grande","Segoe UI",arial,verdana,"lucida sans unicode",tahoma,sans-serif;
-    color: #f72b2b;
+    /*color: #f72b2b;
     text-align: left;
     background-color: #ffd5d5;
     border-collapse: collapse;
     border-top: 1px solid #3088b9;
     border-spacing: 0;
-}
+}*/
