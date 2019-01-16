@@ -72,6 +72,7 @@ $(document).ready(function () {
           var imgId = row[19];
           var orderId = row[0];
           var albumId = row[20];
+      //    var date = row[1];
 
           //if you already have this imgId increment the count and add in profit
           if (output['images'][imgId]) {
@@ -81,10 +82,10 @@ $(document).ready(function () {
           //otherwise set default values as for the img
           else{
             output['images'][imgId] = {
-              'id': imgId,
-              'count': 1,
-              'link': link + '/S',
-              'totalProfit': profit
+              'SM Image Id': imgId,
+              'Time Sold': 1,
+              'Link to image': link + '/S', // Need to make clickable, new tab, 
+              'Total Image Profit': profit
             }
           }
           //same thing for orders and albums
@@ -94,10 +95,11 @@ $(document).ready(function () {
           }
           else{
             output['orders'][orderId] = {
-              'id': orderId,
-              'count': 1,
-              // 'link': link + '/S',
-              'totalProfit': profit
+              'SM Order ID': orderId,
+            ///  'Order Date' : 
+             // 'count': 1, // We'll never have two of the same order number. This might be worth hiding.
+              'Order Link': "https://secure.smugmug.com/cart/order?OrderID=" + orderId, //Adding a link to the orders - Need to make them clickable, new tab
+              'Order Total Profit': profit
             }
           }
 
@@ -106,9 +108,9 @@ $(document).ready(function () {
           }
           else{
             output['albums'][albumId] = {
-              'id': albumId,
-              'totalProfit': profit,
-              'link': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //This is the note 
+              'SM Album ID': albumId,
+              'Total Album Profit': profit,
+              'Album Link (Admin)': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //Need to make them clickable, new tab 
             }
           }   
         }
