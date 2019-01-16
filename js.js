@@ -160,8 +160,18 @@ $(document).ready(function () {
       }
 
       table += '<tr>'
-      $.each(row, function(i, data) {
-        table += '<td>' +data + '</td>'
+      $.each(row, function(index, data) {
+        if (index == 2 && i != 0) {
+          table += '<td><a href="' +data + '" target="_blank">'+data+'</a></td>'
+        }
+        else if (index == 3 && i != 0) {
+          table += '<td>$' +Number(data).toFixed(2) + '</td>'
+
+        }
+        else{
+          table += '<td>' +data + '</td>'
+
+        }
       })
 
       table += '</tr>'
