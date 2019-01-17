@@ -67,29 +67,29 @@ $(document).ready(function () {
       if (row.length == headerCount && i !== 0) {
         if (row[10] === 'Sale') {
           var link = row[17];
-          var profit = Number(row[6]);
+          var profit = Number(row[6])
 
           var orderId = row[0];
           var dateId = row[1];
           var imgId = row[19];
           var albumId = row[20];
-          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy"
+          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy" - Sometimes a there is no parent folder. 
           var galleryTitle = row[22];
           
 
           //if you already have this imgId increment the count and add in profit
           if (output['images'][imgId]) {
-              output['images'][imgId]['Time Sold'] = output['images'][imgId]['Time Sold'] + 1
+              output['images'][imgId]['Times Sold'] = output['images'][imgId]['Times Sold'] + 1
               output['images'][imgId]['Total Image Profit'] = output['images'][imgId]['Total Image Profit'] + profit
           }
           //otherwise set default values as for the img
           else{
             output['images'][imgId] = {
               'SM Image Id': imgId,
-              'Time Sold': 1, 
-              'Link to image': link, // Need to make clickable, new tab, 
+              'Times Sold': 1, 
+              'Link to image': '<a href="' +link + '" target="_blank">'+link+'</a>', 
               'Total Image Profit': profit,
-              'Parent Folder': parentFolder, // This seems to be working - 
+              'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank 
             }
           }
           //same thing for orders and albums
@@ -100,9 +100,8 @@ $(document).ready(function () {
           else{
             output['orders'][orderId] = {
               'SM Order ID': orderId,
-              'Order Date' : dateId, // Added the Date!! 
-            //'count': 1, // We'll never have two of the same order number. This might be worth hiding.
-              'Order Link': "https://secure.smugmug.com/cart/order?OrderID=" + orderId, //Adding a link to the orders - Need to make them clickable, new tab
+              'Order Date' : dateId, 
+              'Order Link': '<a href="https://secure.smugmug.com/cart/order?OrderID=' + orderId +'" target="_blank">https://secure.smugmug.com/cart/order?OrderID=' + orderId + '</a>', 
               'Order Total Profit': profit
             }
           }
@@ -114,9 +113,8 @@ $(document).ready(function () {
             output['albums'][albumId] = {
               'SM Album ID': albumId,
               'Gallery Title': galleryTitle,
-              'Album Link (Admin)': "https://secure.smugmug.com/admin/info/album/?AlbumID=" + albumId, //Need to make them clickable, new tab
               'Total Album Profit': profit,
-               
+              'Album Link (Admin)': '<a href="https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '" target="_blank">https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '</a>', 
             }
           }   
         }
@@ -124,11 +122,10 @@ $(document).ready(function () {
       
 
     })
-  
-    // console.log(unparse)
-
+    //will hold an array or CSV data for each table we want to build
     var unparse = []
 
+    //go over each property in our output obj and reformat the data into an array of objects
     $.each(output, function(i, table) {
       var group = [];
 
@@ -141,6 +138,8 @@ $(document).ready(function () {
 
     console.log(unparse)
 
+    //convert each array of objects into a csv string and the parse that string
+    //feed the results into our table building function
     $.each(unparse, function(i, group){
       var csv = Papa.unparse(group);
       var results = Papa.parse(csv);
@@ -162,17 +161,33 @@ $(document).ready(function () {
 
       table += '<tr>'
       $.each(row, function(index, data) {
-        if (index == 2 && i != 0) {
-          table += '<td><a href="' +data + '" target="_blank">'+data+'</a></td>'
-        }
-        else if (index == 3 && i != 0) {
-          table += '<td>$' +Number(data).toFixed(2) + '</td>'
+        //ADDING MORE COLUMNS WILL REQUIRE US TO UPDATE THIS LOGIC
+        //id == 2 means we are building the albums table, which has its profit colums at
+        //index 2 instead of 3, like the other tables
+        if (id == 2) {
+          //find the profit and exclude the header for the column
+          if (index == 2 && i != 0) {
+            //format the profit into currancy
+            table += '<td>' +Number(data).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) + '</td>'
+          }
+          //print all other rows normally
+          else{
+            table += '<td>' +data + '</td>'
 
+          }
         }
+        //img and order tables both have profit at index 3
         else{
-          table += '<td>' +data + '</td>'
+          if (index == 3 && i != 0) {
+            //format the profit into currancy
+            table += '<td>' +Number(data).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) + '</td>'
+          }
+          else{
+            table += '<td>' +data + '</td>'
 
+          }
         }
+        
       })
 
       table += '</tr>'
