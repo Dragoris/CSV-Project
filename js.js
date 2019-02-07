@@ -1,8 +1,8 @@
 $(document).ready(function () {
- 
+
   function handleFileSelect(evt) {
     var file = evt.target.files[0];
- 
+
     Papa.parse(file, {
       headers: true,
       complete: function(results) {
@@ -73,9 +73,9 @@ $(document).ready(function () {
           var dateId = row[1];
           var imgId = row[19];
           var albumId = row[20];
-          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy" - Sometimes a there is no parent folder. 
+          var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy" - Sometimes a there is no parent folder.
           var galleryTitle = row[22];
-          
+
 
           //if you already have this imgId increment the count and add in profit
           if (output['images'][imgId]) {
@@ -86,22 +86,22 @@ $(document).ready(function () {
           else{
             output['images'][imgId] = {
               'SM Image Id': imgId,
-              'Times Sold': 1, 
-              'Link to image': '<a href="' +link + '" target="_blank">'+link+'</a>', 
+              'Times Sold': 1,
+              'Link to image': '<a href="' +link + '" target="_blank">'+link+'</a>',
               'Total Image Profit': profit,
-              'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank 
+              'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank
             }
           }
           //same thing for orders and albums
           if (output['orders'][orderId]) {
-              output['orders'][orderId]['count'] = output['orders'][orderId]['count'] + 1 
+              output['orders'][orderId]['count'] = output['orders'][orderId]['count'] + 1
               output['orders'][orderId]['totalProfit'] = output['orders'][orderId]['totalProfit'] + profit
           }
           else{
             output['orders'][orderId] = {
               'SM Order ID': orderId,
-              'Order Date' : dateId, 
-              'Order Link': '<a href="https://secure.smugmug.com/cart/order?OrderID=' + orderId +'" target="_blank">https://secure.smugmug.com/cart/order?OrderID=' + orderId + '</a>', 
+              'Order Date' : dateId,
+              'Order Link': '<a href="https://secure.smugmug.com/cart/order?OrderID=' + orderId +'" target="_blank">https://secure.smugmug.com/cart/order?OrderID=' + orderId + '</a>',
               'Order Total Profit': profit
             }
           }
@@ -114,12 +114,12 @@ $(document).ready(function () {
               'SM Album ID': albumId,
               'Gallery Title': galleryTitle,
               'Total Album Profit': profit,
-              'Album Link (Admin)': '<a href="https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '" target="_blank">https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '</a>', 
+              'Album Link (Admin)': '<a href="https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '" target="_blank">https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '</a>',
             }
-          }   
+          }
         }
       }
-      
+
 
     })
     //will hold an array or CSV data for each table we want to build
@@ -187,7 +187,7 @@ $(document).ready(function () {
 
           }
         }
-        
+
       })
 
       table += '</tr>'
@@ -210,7 +210,7 @@ $(document).ready(function () {
 
     $('#csv_table_' + id).tablesorter(options);
   }
- 
+
   $(document).ready(function(){
     $("#csv-file").change(handleFileSelect);
   });
