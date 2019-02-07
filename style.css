@@ -26,3 +26,13 @@
     border-bottom: 2px solid #dee2e6;
     padding-top: 1.5em;
 }
+
+#file_holder  {
+    display: inline-flex;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+.csv-icon{
+    text-align: center;
+    /*width: 100%*/
+}

@@ -5,15 +5,17 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/css/theme.dropbox.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
 
 </head>
 <body>
 	<div class="container">
 		<center><h2>CSV Insights</h2></center>
 		<input type="file" id="csv-file" name="files"/>
-		<!-- <div class="table-wrapper">
-			<table id="csv_table" class="tablesorter"></table>
-		</div> -->
+
+		<center><div id="file_holder"></div></center>
 		<ul class="nav nav-tabs" role="tablist">
 	    	<li class="nav-item">
 	    		<a class="nav-link active" id="img_tab" data-toggle="tab" href="#img_content" role="tab">Images</a>
@@ -42,6 +44,8 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript" src="papaparse.min.js"></script>
+
+	<script type="text/javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.js" ></script>
 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
   	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.widgets.js"></script>

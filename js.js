@@ -215,14 +215,38 @@ $(document).ready(function () {
       unparse.push(group)
     })
 
-    console.log(unparse)
+    function buildCSVLink(csv, id) {
+      var fileName;
+      var color;
+      if (id === 0) {
+        fileName = 'images.csv'
+        color = '#009933'
+      }
+      else if (id === 1) {
+        fileName = 'orders.csv'
+        color = '#0033cc'
+      }
+      else if (id === 2) {
+        fileName = 'albums.csv'
+        color = '#ff9900'
+      }
+      var link = '<a href="data:text/csv;charset=utf-8,' + encodeURI(csv)+'" target="_blank" download="'+fileName+'">'+fileName
 
+      var icon = '<div class="csv-icon"><a href="data:text/csv;charset=utf-8,' + encodeURI(csv)+'" target="_blank" download="'+fileName+'"><i class="fas fa-2x fa-file-csv" style="color:'+color+'; width:100%"></i>'+fileName+'</div></a>'
+      $('#file_holder').append(icon)
+      // var blob = new Blob([csv], { type: "text/plain;charset=utf-8" });
+      // saveAs(blob, fileName);
+
+    }
     //convert each array of objects into a csv string and the parse that string
     //feed the results into our table building function
+
+    $('#file_holder').empty();
     $.each(unparse, function(i, group){
       var csv = Papa.unparse(group);
       var results = Papa.parse(csv);
 
+      buildCSVLink(csv, i)
       buildTable(results, i)
     })
 
