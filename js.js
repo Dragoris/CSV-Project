@@ -84,7 +84,7 @@ $(document).ready(function () {
 
           var imgObj = {
             'SM Image Id': imgId,
-            'Link to image': '<a href="' +link + '" target="_blank">'+link+'</a>', 
+            'Link to image': link, 
             'Total Image Profit': profit,
             'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank 
           }
@@ -93,7 +93,7 @@ $(document).ready(function () {
             'SM Album ID': albumId,
             'Gallery Title': galleryTitle,
             'Total Album Profit': profit,
-            'Album Link (Admin)': '<a href="https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '" target="_blank">https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId + '</a>', 
+            'Album Link (Admin)': 'https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId , 
           }
 
         //orders profit already factors in cupons, can calculate now
@@ -104,7 +104,7 @@ $(document).ready(function () {
           output['orders'][orderId] = {
             'SM Order ID': orderId,
             'Order Date' : dateId, 
-            'Order Link': '<a href="https://secure.smugmug.com/cart/order?OrderID=' + orderId +'" target="_blank">https://secure.smugmug.com/cart/order?OrderID=' + orderId + '</a>', 
+            'Order Link': 'https://secure.smugmug.com/cart/order?OrderID=' + orderId, 
             'Order Total Profit': profit
           }
         }
@@ -127,13 +127,7 @@ $(document).ready(function () {
 
         
       }
-      //this is a cupon overage
-      // else if (row.length === 21) {
-      //   //add row[7] to profit to factor in cupon discounts
-      //   imgProfit += charges
-      //   albumProfit += charges
 
-      // }
       //this is a shipping cost. Marks the end of an order
       else if (row.length === 13) {
         var imgDiscount = 0;
@@ -181,11 +175,12 @@ $(document).ready(function () {
           }
           else{
             output['albums'][albumId] = {
-              'count': 1,
               'SM Album ID': albumId,
-              'Gallery Title': galleryTitle,
-              'Total Album Profit': profit + albumDiscount,
+              'count': 1,
               'Album Link (Admin)': link, 
+              'Total Album Profit': profit + albumDiscount,
+              'Gallery Title': galleryTitle,
+              
             }
           }
         })
@@ -199,7 +194,7 @@ $(document).ready(function () {
       }
       
     })
-          // console.log(output)
+          console.log(output)
 
     //will hold an array or CSV data for each table we want to build
     var unparse = []
@@ -230,14 +225,12 @@ $(document).ready(function () {
         fileName = 'albums.csv'
         color = '#ff9900'
       }
-      var link = '<a href="data:text/csv;charset=utf-8,' + encodeURI(csv)+'" target="_blank" download="'+fileName+'">'+fileName
 
       var icon = '<div class="csv-icon"><a href="data:text/csv;charset=utf-8,' + encodeURI(csv)+'" target="_blank" download="'+fileName+'"><i class="fas fa-2x fa-file-csv" style="color:'+color+'; width:100%"></i>'+fileName+'</div></a>'
       $('#file_holder').append(icon)
-      // var blob = new Blob([csv], { type: "text/plain;charset=utf-8" });
-      // saveAs(blob, fileName);
 
     }
+
     //convert each array of objects into a csv string and the parse that string
     //feed the results into our table building function
 
@@ -264,33 +257,21 @@ $(document).ready(function () {
 
       table += '<tr>'
       $.each(row, function(index, data) {
-        //ADDING MORE COLUMNS WILL REQUIRE US TO UPDATE THIS LOGIC
-        //id == 2 means we are building the albums table, which has its profit colums at
-        //index 2 instead of 3, like the other tables
-        var money = Number(data).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-        // if (id == 2) {
-        //   //find the profit and exclude the header for the column
-        //   if (index == 3 && i != 0) {
-        //     //format the profit into currancy
-        //     table += '<td>' +money + '</td>'
-        //   }
-        //   //print all other rows normally
-        //   else{
-        //     table += '<td>' +data + '</td>'
+        //'index' indicates which column of the table we are looking at
+        // i != 0 tells us to skip the header info from the first row 
+        if (index == 2 && i != 0) {
+            var link = '<a href="'+data+'" target="_blank">'+data+'</a>'
+            table += '<td>' +link+ '</td>'
+        }
+        else if (index == 3 && i != 0) {
+          //format the profit into currancy
+          var money = Number(data).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          table += '<td>' +money + '</td>'
+        }
+        else{
+          table += '<td>' +data + '</td>'
 
-        //   }
-        // }
-        // //img and order tables both have profit at index 3
-        // else{
-          if (index == 3 && i != 0) {
-            //format the profit into currancy
-            table += '<td>' +money + '</td>'
-          }
-          else{
-            table += '<td>' +data + '</td>'
-
-          }
-        // }
+        }
         
       })
 
