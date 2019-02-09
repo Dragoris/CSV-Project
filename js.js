@@ -63,13 +63,9 @@ $(document).ready(function () {
     var currentImgs = [];
     var currentAlbums = [];
     var currentOrders = [];
-    var uniqueAlbums = new Set();
-    var uniqueImgs = new Set();
 
     $.each(results.data, function(i, row) {
-      if (row[0] === '4935917') {
-        console.log(row)
-      }
+
       var headerCount = 23;
       var link = row[17];
       var profit = Number(row[6]);
@@ -83,10 +79,8 @@ $(document).ready(function () {
       var galleryTitle = row[22];
       //skip header and ignore rows for shipping costs
       if (row.length === headerCount && i !== 0) {
-
           
         if (type === 'Sale') {
-
 
           var imgObj = {
             'SM Image Id': imgId,
@@ -112,9 +106,6 @@ $(document).ready(function () {
           currentImgs.push(imgObj)
           currentAlbums.push(albumObj)
           currentOrders.push(orderObj)
-
-          uniqueImgs.add(imgId)
-          uniqueAlbums.add(albumId)
         }
         //this is a coupon
         else if (type !== 'Sale' && row[6]) {
@@ -122,6 +113,7 @@ $(document).ready(function () {
         }
         
       }
+
       else if (row.length === 21 && type === 'Coupon Overage') {
         discount += cuponOverage
       }
@@ -133,9 +125,10 @@ $(document).ready(function () {
         var albumDiscount = 0;
 
         if (discount) {
-          imgDiscount = (Number(discount) / uniqueImgs.size)
-          albumDiscount = (Number(discount) / uniqueAlbums.size)
+          imgDiscount = (Number(discount) / currentImgs.length)
+          albumDiscount = (Number(discount) / currentAlbums.length)
         }
+
 
         $.each(currentImgs, function (i, img) {
           var imgId = img['SM Image Id'];
@@ -336,3 +329,20 @@ $(document).ready(function () {
     })
     console.log(total)
   }
+  function addAlbum(){
+    var total = 0
+
+    $.each(output.albums, function(i, album){
+      total += album['Total Album Profit']
+    })
+    console.log(total)
+  }
+    function addOrder(){
+    var total = 0
+
+    $.each(output.orders, function(i, order){
+      total += order['Order Total Profit']
+    })
+    console.log(total)
+  }
+
