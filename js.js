@@ -33,7 +33,7 @@ $(document).ready(function () {
       }
 
     }
-//     0: "OrderID"
+// 0: "OrderID"
 // 1: "Date"
 // 2: "Quantity"
 // 3: "Currency"
@@ -62,25 +62,31 @@ $(document).ready(function () {
     var discount = 0;
     var currentImgs = [];
     var currentAlbums = [];
+    var currentOrders = [];
     var uniqueAlbums = new Set();
     var uniqueImgs = new Set();
 
     $.each(results.data, function(i, row) {
-      var headerCount = 23
+      if (row[0] === '4935917') {
+        console.log(row)
+      }
+      var headerCount = 23;
+      var link = row[17];
+      var profit = Number(row[6]);
+      var cuponOverage = Number(row[7]);
+      var type = row[10];
+      var orderId = row[0];
+      var dateId = row[1];
+      var imgId = row[19];
+      var albumId = row[20];
+      var parentFolder = row [21]; 
+      var galleryTitle = row[22];
       //skip header and ignore rows for shipping costs
       if (row.length === headerCount && i !== 0) {
-        var link = row[17];
-        var profit = Number(row[6]);
-        var charges = Number(row[7]);
-        var type = row[10];
-        var orderId = row[0];
-        var dateId = row[1];
-        var imgId = row[19];
-        var albumId = row[20];
-        var parentFolder = row [21]; // This is the 'Folder' the Gallery lives inside. Listed in the CSV as "Category Hierarchy" - Sometimes a there is no parent folder. 
-        var galleryTitle = row[22];
+
           
         if (type === 'Sale') {
+
 
           var imgObj = {
             'SM Image Id': imgId,
@@ -96,40 +102,33 @@ $(document).ready(function () {
             'Album Link (Admin)': 'https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId , 
           }
 
-        //orders profit already factors in cupons, can calculate now
-        if (output['orders'][orderId]) {
-            output['orders'][orderId]['Order Total Profit'] = output['orders'][orderId]['Order Total Profit'] + profit
-        }
-        else{
-          output['orders'][orderId] = {
+          var orderObj = {
             'SM Order ID': orderId,
             'Order Date' : dateId, 
             'Order Link': 'https://secure.smugmug.com/cart/order?OrderID=' + orderId, 
             'Order Total Profit': profit
           }
-        }
-
-
 
           currentImgs.push(imgObj)
           currentAlbums.push(albumObj)
+          currentOrders.push(orderObj)
 
           uniqueImgs.add(imgId)
           uniqueAlbums.add(albumId)
         }
         //this is a coupon
         else if (type !== 'Sale' && row[6]) {
-          discount = profit
+          discount += profit
         }
-
-
-
-
         
+      }
+      else if (row.length === 21 && type === 'Coupon Overage') {
+        discount += cuponOverage
       }
 
       //this is a shipping cost. Marks the end of an order
       else if (row.length === 13) {
+
         var imgDiscount = 0;
         var albumDiscount = 0;
 
@@ -184,12 +183,38 @@ $(document).ready(function () {
             }
           }
         })
+        var totalOrderProfit = 0;
 
-        
+        $.each(currentOrders, function(i, order) {
+          var orderProfit = order['Order Total Profit'];
+          // if (orderId === '5400453') {
+          //   console.log(discount, orderProfit)
+          // } 
+          totalOrderProfit += orderProfit          
+        })
+
+        totalOrderProfit += discount
+        var orderId = currentOrders[0]['SM Order ID'];
+        var dateId = currentOrders[0]['Order Date'];
+
+        if (output['orders'][orderId]) {
+            output['orders'][orderId]['Order Total Profit'] = output['orders'][orderId]['Order Total Profit'] + totalOrderProfit
+        }
+        else{
+          output['orders'][orderId] = {
+            'SM Order ID': orderId,
+            'Order Date' : dateId, 
+            'Order Link': 'https://secure.smugmug.com/cart/order?OrderID=' + orderId, 
+            'Order Total Profit': totalOrderProfit
+          }
+        }
+
+
         //reset values after an order
         discount = 0;
         currentImgs = [];
         currentAlbums = [];
+        currentOrders = [];
              
       }
       
