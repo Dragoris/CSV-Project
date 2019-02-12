@@ -13,30 +13,40 @@
 <body>
 	<div class="container">
 		<center><h2>CSV Insights</h2></center>
-		<input type="file" id="csv-file" name="files"/>
+		<center><input type="file" id="csv-file" name="files"/></center>
 
-		<center><div id="file_holder"></div></center>
-		<ul class="nav nav-tabs" role="tablist">
-	    	<li class="nav-item">
-	    		<a class="nav-link active" id="img_tab" data-toggle="tab" href="#img_content" role="tab">Images</a>
-	    	</li>
-	    	<li class="nav-item">
-	    		<a class="nav-link" id="order_tab" data-toggle="tab" href="#order_content" role="tab">Orders</a>
-	    	</li>
-	    	<li class="nav-item">
-	    		<a class="nav-link" id="album_tab" data-toggle="tab" href="#album_content" role="tab">Albums</a>
-	    	</li>
-		</ul>
-		<div class="tab-content">
-			<div class="tab-pane fade show active" id="img_content" role="tabpanel">
-				<table id="csv_table_0" class="tablesorter"></table>
+		<center>
+			<div id="download_wrapper" class="d-none">
+				<h2>text wont be deleted out of the file_holder</h2>
+				<div id="file_holder"></div>
 			</div>
-			<div class="tab-pane fade" id="order_content" role="tabpanel">
-				<table id="csv_table_1" class="tablesorter"></table>
+			</center>
+		<div id="table_tabs" class="d-none">
+			<ul class="nav nav-tabs" role="tablist">
+		    	<li class="nav-item">
+		    		<a class="nav-link active" id="img_tab" data-toggle="tab" href="#img_content" role="tab">Images</a>
+		    	</li>
+		    	<li class="nav-item">
+		    		<a class="nav-link" id="order_tab" data-toggle="tab" href="#order_content" role="tab">Orders</a>
+		    	</li>
+		    	<li class="nav-item">
+		    		<a class="nav-link" id="album_tab" data-toggle="tab" href="#album_content" role="tab">Albums</a>
+		    	</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade show active" id="img_content" role="tabpanel">
+					<table id="csv_table_0" class="tablesorter"></table>
+				</div>
+				<div class="tab-pane fade" id="order_content" role="tabpanel">
+					<table id="csv_table_1" class="tablesorter"></table>
+				</div>
+				<div class="tab-pane fade" id="album_content" role="tabpanel">
+					<table id="csv_table_2" class="tablesorter"></table>
+				</div>
 			</div>
-			<div class="tab-pane fade" id="album_content" role="tabpanel">
-				<table id="csv_table_2" class="tablesorter"></table>
-			</div>
+		</div>
+		<div id="table_placeholder">
+			<img src="https://photos.smugmug.com/photos/i-4BxGqLN/0/84a5dcaa/O/i-4BxGqLN.jpg">
 		</div>
 	</div>
 
@@ -45,8 +55,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript" src="papaparse.min.js"></script>
 
-	<script type="text/javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.js" ></script>
-
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
   	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.widgets.js"></script>
 
@@ -54,7 +62,7 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 
 
-	<script type="text/javascript" src="js.js"></script>
+	<script type="text/javascript" src="index.js"></script>
 
   	
 
