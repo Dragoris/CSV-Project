@@ -1,8 +1,8 @@
 $(document).ready(function () {
- 
+
   function handleFileSelect(evt) {
     var file = evt.target.files[0];
- 
+
     Papa.parse(file, {
       headers: true,
       complete: function(results) {
@@ -49,7 +49,7 @@ $(document).ready(function () {
 // 22: "Gallery Title"
 
 
-    //these variables used to calculate the coupon discount 
+    //these variables used to calculate the coupon discount
     var discount = 0;
     var currentImgs = [];
     var currentAlbums = [];
@@ -67,32 +67,32 @@ $(document).ready(function () {
       var dateId = row[1];
       var imgId = row[19];
       var albumId = row[20];
-      var parentFolder = row [21]; 
+      var parentFolder = row [21];
       var galleryTitle = row[22];
 
       //skip header and ignore rows for shipping costs
       if (row.length === headerCount && i !== 0) {
-          
+
         if (type === 'Sale') {
 
           var imgObj = {
             'SM Image Id': imgId,
-            'Link to image': link, 
+            'Link to image': link,
             'Total Image Profit': profit,
-            'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank 
+            'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank
           }
 
           var albumObj = {
             'SM Album ID': albumId,
             'Gallery Title': galleryTitle,
             'Total Album Profit': profit,
-            'Album Link (Admin)': 'https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId , 
+            'Album Link (Admin)': 'https://secure.smugmug.com/admin/info/album/?AlbumID=' + albumId ,
           }
 
           var orderObj = {
             'SM Order ID': orderId,
-            'Order Date' : dateId, 
-            'Order Link': 'https://secure.smugmug.com/cart/order?OrderID=' + orderId, 
+            'Order Date' : dateId,
+            'Order Link': 'https://secure.smugmug.com/cart/order?OrderID=' + orderId,
             'Order Total Profit': profit
           }
 
@@ -104,7 +104,7 @@ $(document).ready(function () {
         else if (type !== 'Sale' && profit) {
           discount += profit
         }
-        
+
       }
 
       else if (row.length === 21 && type === 'Coupon Overage') {
@@ -140,16 +140,16 @@ $(document).ready(function () {
           else{
             output['images'][imgId] = {
               'SM Image Id': imgId,
-              'Times Sold': 1, 
-              'Link to image': link, 
+              'Times Sold': 1,
+              'Link to image': link,
               'Total Image Profit': profit + imgDiscount,
-              'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank 
+              'Parent Folder': parentFolder, // IF the gallery lives inside a 'Folder' it will be shown here. If not, it's blank
             }
           }
         })
-        
 
-        
+
+
         //same thing for orders and albums
         $.each(currentAlbums, function(i, album) {
           var albumId = album['SM Album ID'];
@@ -165,10 +165,10 @@ $(document).ready(function () {
             output['albums'][albumId] = {
               'SM Album ID': albumId,
               'count': 1,
-              'Album Link (Admin)': link, 
+              'Album Link (Admin)': link,
               'Total Album Profit': profit + albumDiscount,
               'Gallery Title': galleryTitle,
-              
+
             }
           }
         })
@@ -177,7 +177,7 @@ $(document).ready(function () {
         $.each(currentOrders, function(i, order) {
           var orderProfit = order['Order Total Profit'];
 
-          totalOrderProfit += orderProfit          
+          totalOrderProfit += orderProfit
         })
 
         totalOrderProfit += discount
@@ -190,8 +190,8 @@ $(document).ready(function () {
         else{
           output['orders'][orderId] = {
             'SM Order ID': orderId,
-            'Order Date' : dateId, 
-            'Order Link': 'https://secure.smugmug.com/cart/order?OrderID=' + orderId, 
+            'Order Date' : dateId,
+            'Order Link': 'https://secure.smugmug.com/cart/order?OrderID=' + orderId,
             'Order Total Profit': totalOrderProfit
           }
         }
@@ -202,12 +202,12 @@ $(document).ready(function () {
         currentImgs = [];
         currentAlbums = [];
         currentOrders = [];
-             
+
       }
-      
+
     })
     //*** end csv row loop
-    
+
     //output is the result of looping over all rows of the csv
     console.log(output)
 
@@ -255,7 +255,7 @@ $(document).ready(function () {
         color = '#ff9900'
       }
 
-      var icon = '<div class="csv-icon"><a href="data:text/csv;charset=utf-8,' + encodeURI(csv)+'" target="_blank" download="'+fileName+'"><i class="fas fa-2x fa-file-csv" style="color:'+color+'; width:100%"></i>'+fileName+'</div></a>'
+      var icon = '<div class="csv-icon"><a href="data:text/csv;charset=utf-8,' + encodeURI(csv)+'" target="_blank" download="'+fileName+'"><i class="fas fa-3x fa-file-csv" style="color:'+color+'; width:100%"></i>'+fileName+'</div></a>'
       $('#file_holder').append(icon)
 
     }
@@ -274,7 +274,7 @@ $(document).ready(function () {
       table += '<tr>'
       $.each(row, function(index, data) {
         //'index' indicates which column of the table we are looking at
-        // i != 0 tells us to skip the header info from the first row 
+        // i != 0 tells us to skip the header info from the first row
         if (index == 2 && i != 0) {
             var link = '<a href="'+data+'" target="_blank">'+data+'</a>'
             table += '<td>' +link+ '</td>'
@@ -287,7 +287,7 @@ $(document).ready(function () {
         else{
           table += '<td>' + data + '</td>'
         }
-        
+
       })
 
       table += '</tr>'
@@ -310,14 +310,18 @@ $(document).ready(function () {
     //activating ability to sort by click on headers
     $('#csv_table_' + id).tablesorter(options);
   }
- 
+
   $(document).ready(function(){
     $("#csv-file").change(handleFileSelect);
   });
 
-
+//****CAROUSEL***//
+  $('.carousel').carousel({
+    interval: 3000
+  })
 
 })
+
 
 function addImg(){
   var total = 0
@@ -345,4 +349,3 @@ function addOrder(){
   })
   console.log(total)
 }
-

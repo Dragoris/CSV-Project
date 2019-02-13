@@ -1,19 +1,5 @@
-/*.table-wrapper{
-	overflow: scroll;
-    height: 93vh;
-    color: red
+.container {
 }
-
-.tablesorter-dropbox {
-    width: 100%;
-    font: 13px/32px "Open Sans","lucida grande","Segoe UI",arial,verdana,"lucida sans unicode",tahoma,sans-serif;
-    /*color: #f72b2b;
-    text-align: left;
-    background-color: #ffd5d5;
-    border-collapse: collapse;
-    border-top: 1px solid #3088b9;
-    border-spacing: 0;
-}*/
 
 /* Make the Active tab SmugMug Green */
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
@@ -23,16 +9,47 @@
 
 /* Push the tabs down a little from the import button */
 .nav-tabs {
-    border-bottom: 2px solid #dee2e6;
     padding-top: 1.5em;
 }
 
 #file_holder  {
     display: inline-flex;
-    margin-left: 50px;
-    margin-top: 20px;
 }
 .csv-icon{
     text-align: center;
     /*width: 100%*/
+}
+
+.csv-file {
+  position: absolute;
+  width: auto;
+  left: 50%;
+  padding-bottom: 1.5em;
+}
+
+div#download_wrapper {
+    padding: 10px;
+  /* border: 2px;
+    border-style: solid; */
+    width: 50%;
+    margin-top: .5em;
+  /*background: black; */
+    color: black;
+}
+
+.col-8, .col-4{
+  Padding: 20px;
+}
+
+div#table_tabs {
+    width: 100%;
+    padding: 30px;
+}
+
+.jumbotron {
+    padding: 1rem 2rem;
+    padding-top: 1rem;
+    padding-right: 2rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
 }
