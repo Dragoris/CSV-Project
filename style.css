@@ -52,4 +52,21 @@ div#table_tabs {
     padding-right: 2rem;
     padding-bottom: 1rem;
     padding-left: 2rem;
+    background-color: #ffffff;
 }
+
+
+.tablesorter-dropbox {
+font-weight: 600;
+}
+
+/* This is the 'Choose File/Submit' Button */
+.btn-primary {
+    color: #fff;
+    background-color: #96c155;
+    border-color: #96c155;
+  }
+
+  .download {
+    padding: 30px;
+  }
